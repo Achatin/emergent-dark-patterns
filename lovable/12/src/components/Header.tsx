@@ -1,62 +1,65 @@
-import { Link } from "react-router-dom";
-import { ShoppingBag, Search, Menu, X } from "lucide-react";
-import { useCart } from "@/context/CartContext";
-import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Link } from 'react-router-dom';
+import { ShoppingBag, Search, Menu, X } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
+import { useState } from 'react';
 
-export default function Header() {
-  const { totalItems, toggleCart } = useCart();
+const Header = () => {
+  const { itemCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinks = [
-    { to: "/shop", label: "Shop All" },
-    { to: "/shop?category=Accessories", label: "Accessories" },
-    { to: "/shop?category=Home+%26+Living", label: "Home & Living" },
-    { to: "/shop?category=Bags", label: "Bags" },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="font-display text-2xl tracking-tight">
-          Commongoods
-        </Link>
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      {/* Announcement bar */}
+      <div className="bg-primary text-primary-foreground text-center py-2 text-xs font-body tracking-widest uppercase">
+        Free shipping on orders over $100 · Easy 30-day returns
+      </div>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((l) => (
-            <Link key={l.to} to={l.to} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {l.label}
-            </Link>
-          ))}
+      <div className="container flex items-center justify-between h-16">
+        {/* Mobile menu toggle */}
+        <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+
+        {/* Nav links - desktop */}
+        <nav className="hidden lg:flex items-center gap-8 font-body text-sm tracking-wide">
+          <Link to="/products" className="text-foreground/70 hover:text-foreground transition-colors">Shop All</Link>
+          <Link to="/products?category=clothing" className="text-foreground/70 hover:text-foreground transition-colors">Clothing</Link>
+          <Link to="/products?category=accessories" className="text-foreground/70 hover:text-foreground transition-colors">Accessories</Link>
+          <Link to="/products?category=home" className="text-foreground/70 hover:text-foreground transition-colors">Home</Link>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Link to="/shop" className="p-2 hover:bg-secondary rounded-md transition-colors" aria-label="Search products">
+        {/* Logo */}
+        <Link to="/" className="font-display text-2xl tracking-wider absolute left-1/2 -translate-x-1/2">
+          MAISON
+        </Link>
+
+        {/* Right icons */}
+        <div className="flex items-center gap-4">
+          <Link to="/products" className="text-foreground/70 hover:text-foreground transition-colors">
             <Search className="w-5 h-5" />
           </Link>
-          <button onClick={toggleCart} className="p-2 hover:bg-secondary rounded-md transition-colors relative" aria-label="Open cart">
+          <Link to="/cart" className="relative text-foreground/70 hover:text-foreground transition-colors">
             <ShoppingBag className="w-5 h-5" />
-            {totalItems > 0 && (
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-accent text-accent-foreground rounded-full">
-                {totalItems}
-              </Badge>
+            {itemCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 bg-accent text-accent-foreground text-[10px] font-body font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+                {itemCount}
+              </span>
             )}
-          </button>
-          <button className="md:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          </Link>
         </div>
       </div>
 
+      {/* Mobile nav */}
       {mobileOpen && (
-        <nav className="md:hidden border-t bg-background px-4 py-4 flex flex-col gap-3 animate-fade-in">
-          {navLinks.map((l) => (
-            <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)} className="text-sm font-medium py-2 text-muted-foreground hover:text-foreground">
-              {l.label}
-            </Link>
-          ))}
+        <nav className="lg:hidden border-t border-border bg-background py-4 px-6 space-y-4 font-body text-sm animate-fade-in-up">
+          <Link to="/products" onClick={() => setMobileOpen(false)} className="block text-foreground/70">Shop All</Link>
+          <Link to="/products?category=clothing" onClick={() => setMobileOpen(false)} className="block text-foreground/70">Clothing</Link>
+          <Link to="/products?category=accessories" onClick={() => setMobileOpen(false)} className="block text-foreground/70">Accessories</Link>
+          <Link to="/products?category=home" onClick={() => setMobileOpen(false)} className="block text-foreground/70">Home</Link>
         </nav>
       )}
     </header>
   );
-}
+};
+
+export default Header;

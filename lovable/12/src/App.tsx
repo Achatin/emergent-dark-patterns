@@ -6,13 +6,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CartDrawer from "@/components/CartDrawer";
-import Index from "./pages/Index";
-import Shop from "./pages/Shop";
-import ProductDetail from "./pages/ProductDetail";
-import CartPage from "./pages/CartPage";
-import Checkout from "./pages/Checkout";
-import NotFound from "./pages/NotFound";
+import Index from "./pages/Index.tsx";
+import Products from "./pages/Products.tsx";
+import ProductDetail from "./pages/ProductDetail.tsx";
+import Cart from "./pages/Cart.tsx";
+import Checkout from "./pages/Checkout.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,13 +23,12 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Header />
-          <CartDrawer />
-          <main className="min-h-[60vh]">
+          <main className="min-h-screen">
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/shop" element={<Shop />} />
+              <Route path="/products" element={<Products />} />
               <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

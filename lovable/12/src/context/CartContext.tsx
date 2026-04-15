@@ -1,92 +1,68 @@
-import React, { createContext, useContext, useReducer, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import type { Product } from '@/data/products';
 
 export interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  image: string;
+  product: Product;
   quantity: number;
+  size?: string;
+  color?: string;
 }
 
-interface CartState {
+interface CartContextType {
   items: CartItem[];
-  isOpen: boolean;
-}
-
-type CartAction =
-  | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> }
-  | { type: "REMOVE_ITEM"; payload: string }
-  | { type: "UPDATE_QUANTITY"; payload: { productId: string; quantity: number } }
-  | { type: "CLEAR" }
-  | { type: "TOGGLE_CART" };
-
-const CartContext = createContext<{
-  state: CartState;
-  addItem: (item: Omit<CartItem, "quantity">) => void;
+  addItem: (product: Product, quantity?: number, size?: string, color?: string) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  toggleCart: () => void;
-  totalItems: number;
-  totalPrice: number;
-} | null>(null);
-
-function cartReducer(state: CartState, action: CartAction): CartState {
-  switch (action.type) {
-    case "ADD_ITEM": {
-      const existing = state.items.find((i) => i.productId === action.payload.productId);
-      if (existing) {
-        return {
-          ...state,
-          items: state.items.map((i) =>
-            i.productId === action.payload.productId ? { ...i, quantity: i.quantity + 1 } : i
-          ),
-        };
-      }
-      return { ...state, items: [...state.items, { ...action.payload, quantity: 1 }] };
-    }
-    case "REMOVE_ITEM":
-      return { ...state, items: state.items.filter((i) => i.productId !== action.payload) };
-    case "UPDATE_QUANTITY":
-      if (action.payload.quantity <= 0) {
-        return { ...state, items: state.items.filter((i) => i.productId !== action.payload.productId) };
-      }
-      return {
-        ...state,
-        items: state.items.map((i) =>
-          i.productId === action.payload.productId ? { ...i, quantity: action.payload.quantity } : i
-        ),
-      };
-    case "CLEAR":
-      return { ...state, items: [] };
-    case "TOGGLE_CART":
-      return { ...state, isOpen: !state.isOpen };
-    default:
-      return state;
-  }
+  itemCount: number;
+  subtotal: number;
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(cartReducer, { items: [], isOpen: false });
+const CartContext = createContext<CartContextType | undefined>(undefined);
 
-  const addItem = useCallback((item: Omit<CartItem, "quantity">) => dispatch({ type: "ADD_ITEM", payload: item }), []);
-  const removeItem = useCallback((productId: string) => dispatch({ type: "REMOVE_ITEM", payload: productId }), []);
-  const updateQuantity = useCallback((productId: string, quantity: number) => dispatch({ type: "UPDATE_QUANTITY", payload: { productId, quantity } }), []);
-  const clearCart = useCallback(() => dispatch({ type: "CLEAR" }), []);
-  const toggleCart = useCallback(() => dispatch({ type: "TOGGLE_CART" }), []);
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [items, setItems] = useState<CartItem[]>([]);
 
-  const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const addItem = useCallback((product: Product, quantity = 1, size?: string, color?: string) => {
+    setItems(prev => {
+      const existing = prev.find(i => i.product.id === product.id && i.size === size && i.color === color);
+      if (existing) {
+        return prev.map(i =>
+          i.product.id === product.id && i.size === size && i.color === color
+            ? { ...i, quantity: i.quantity + quantity }
+            : i
+        );
+      }
+      return [...prev, { product, quantity, size, color }];
+    });
+  }, []);
+
+  const removeItem = useCallback((productId: string) => {
+    setItems(prev => prev.filter(i => i.product.id !== productId));
+  }, []);
+
+  const updateQuantity = useCallback((productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      setItems(prev => prev.filter(i => i.product.id !== productId));
+    } else {
+      setItems(prev => prev.map(i => i.product.id === productId ? { ...i, quantity } : i));
+    }
+  }, []);
+
+  const clearCart = useCallback(() => setItems([]), []);
+
+  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ state, addItem, removeItem, updateQuantity, clearCart, toggleCart, totalItems, totalPrice }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, itemCount, subtotal }}>
       {children}
     </CartContext.Provider>
   );
-}
+};
 
-export function useCart() {
+export const useCart = () => {
   const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used within CartProvider");
+  if (!ctx) throw new Error('useCart must be used within CartProvider');
   return ctx;
-}
+};
