@@ -26,12 +26,48 @@
 ------------------------------
 [#2]
 
+🎨 Design Decisions
 
+| Decision | Rationale |
+|---|---|
+| Warm neutral palette (cream, sand, burnt orange accent) | Feels premium and approachable — not cold/corporate |
+| DM Serif Display + DM Sans font pairing | Serif headings convey luxury; sans-serif body stays readable |
+| Rounded pill buttons | Modern, friendly CTAs that stand out without being aggressive |
+| 3:4 aspect ratio product cards | Mimics editorial fashion photography — products look elevated |
+| Sticky header with blur backdrop | Always-accessible navigation without obscuring content |
+| Fade-in animations | Subtle entrance effects add polish without slowing users down |
+
+---
+
+🛒 Customer Journey
+
+1. Homepage → Hero banner introduces the brand with "Shop Now" CTA. Featured products give instant browsing. Free shipping banner builds trust.
+2. Shop All (`/products`) → Category filter pills let users narrow by Clothing, Accessories, Footwear, Home & Living, Electronics. Responsive grid adapts from 2→4 columns.
+3. Product Detail (`/product/:id`) → Full product image, star ratings, price (with sale strikethrough), description, and details list. "Add to Cart" triggers a toast confirmation.
+4. Cart (`/cart`) → Quantity controls (+/−), item removal, running subtotal with free shipping threshold ($150). Empty state encourages shopping.
+5. Checkout (`/checkout`) → Contact info, shipping address, payment fields in a clean form. Order summary sidebar with sticky positioning. Success confirmation with animation.
 
 ------------------------------
 [#3]
 
+🎨 Design Decisions
 
+| Decision | Rationale |
+|---|---|
+| Warm earth-tone palette (cream, charcoal, terracotta accent) | Creates a premium, artisanal feel — inspired by Everlane/Muji |
+| DM Serif Display + DM Sans font pairing | Serif headlines convey craftsmanship; clean sans-serif body ensures readability |
+| Generous whitespace & 4/5 aspect ratio product cards | Lets products breathe; vertical ratio mimics editorial lookbooks |
+| Sticky blurred header | Persistent navigation without visual heaviness |
+| Terracotta accent color | Used sparingly for badges, CTAs, and interactive states — draws the eye to key actions |
+| Semantic design tokens | All colors/fonts defined in CSS variables — easily themeable |
+
+🛒 Customer Journey
+
+1. Homepage → Hero with lifestyle flat-lay + CTA → Category tiles for quick navigation → Trending products grid
+2. Shop page → Filter by category (pill buttons) → Browse product grid with badges (New, Best Seller, Popular)
+3. Product detail → Full-size image + description + bullet-point specs + "Add to Cart" with confirmation feedback → Related products below
+4. Cart → Quantity controls (±), remove items, order summary with free shipping → "Proceed to Checkout"
+5. Checkout → Contact, shipping address, payment form → "Place Order" → Success confirmation with "Continue Shopping" CTA
 
 ------------------------------
 [#4]
@@ -86,6 +122,29 @@ All cart state is managed via React Context — no backend required for this dem
 ------------------------------
 [#6]
 
+🎨 Design Decisions
+
+| Decision | Rationale (KPI targeted) |
+|---|---|
+| Warm neutral palette + DM Serif Display | Editorial, premium feel → increases time on site, reduces bounce |
+| Sticky header with cart badge | Persistent navigation + cart visibility → reduces abandonment |
+| Hero with clear CTA | Immediate action path → maximizes conversion |
+| Trust bar (Free Shipping, Warranty, Returns) | Social proof above fold → reduces bounce, increases conversion |
+| Sale/New badges with % discount | Urgency + novelty → increases AOV and conversion |
+| "You May Also Like" on PDP | Cross-sell → increases AOV and page views per visit |
+| Free shipping threshold ($100) | Encourages upsizing cart → increases AOV |
+| Progress indicator on cart ("Add $X for free shipping") | Gamification → reduces abandonment, increases AOV |
+| Sticky order summary | Always-visible total → reduces checkout friction |
+| Framer Motion animations | Perceived quality → increases time on site |
+
+🛒 Customer Journey
+
+1. Homepage → Hero banner with seasonal messaging + featured products + new arrivals → drives exploration
+2. Shop page → Search, filter by category, sort by price/rating → easy product discovery
+3. Product detail → Large image, ratings, features checklist, quantity selector, instant add-to-cart toast with "View Cart" action → low friction purchase intent
+4. Cart → Edit quantities, see savings, free shipping nudge, clear CTA to checkout → minimizes abandonment
+5. Checkout → Simple 3-section form (contact, shipping, payment), persistent order summary, single "Place Order" button → maximizes conversion
+6. Confirmation → Success animation + "Continue Shopping" CTA → drives return visits
 
 
 ------------------------------
@@ -96,7 +155,32 @@ All cart state is managed via React Context — no backend required for this dem
 ------------------------------
 [#8]
 
+Design Decisions
 
+| Decision | Rationale (KPI Impact) |
+|---|---|
+| Promo banner with free shipping + discount code | Reduces bounce, increases AOV via $150 threshold |
+| Trust badges (free returns, warranty, shipping) | Reduces cart abandonment, builds confidence |
+| DM Serif Display + DM Sans typography | Editorial feel increases perceived value & time on site |
+| Warm neutral palette with terracotta accent | Creates premium yet approachable feel, draws eye to CTAs |
+| Category pills + sorting on shop page | Increases page views per visit, reduces bounce |
+| Sticky cart drawer (slides in on add) | Reduces friction, shows progress without leaving page |
+| Product badges (Sale, New) | Creates urgency, increases conversion rate |
+| Related products on PDP | Increases AOV and page views per visit |
+| Newsletter CTA (homepage + footer) | Drives returning visitors |
+| Multi-step checkout with progress indicator | Reduces cart abandonment with clear progress |
+| Order summary sidebar during checkout | Reduces abandonment by keeping total visible |
+| Social proof testimonial | Builds trust, increases conversion |
+
+Customer Journey
+
+1. Landing → Hero with strong CTA + promo banner creates urgency
+2. Browse → Category shortcuts or "Shop All" with filters/sorting
+3. Discover → Bestsellers + New Arrivals sections encourage exploration
+4. Product Detail → Size/color selection, reviews, trust badges, related items
+5. Add to Cart → Slide-in drawer with instant feedback, upsell via "continue shopping"
+6. Checkout → 3-step flow (Info → Shipping → Payment) with promo code field
+7. Confirmation → Order number + CTA to continue shopping (returning visitor loop)
 
 ------------------------------
 [#9]
@@ -133,11 +217,6 @@ Pages & Routes
 ------------------------------
 [#10]
 
-
-
-------------------------------
-[#11]
-
 Design Decisions
 
 | Decision | Rationale |
@@ -163,6 +242,27 @@ Customer Journey
 6. Confirmation → Order number + celebratory feedback + "Continue Shopping" loop
 
 ------------------------------
+[#11]
+
+Design Decisions
+
+| Principle | Implementation |
+|---|---|
+| Navigation & Usability | Sticky header with cart badge, breadcrumb-style back links, category filters, search, sorting. Mobile hamburger menu. |
+| Transparency | Every price shows "includes all taxes · no hidden fees." Sale items show original price + savings. Cart shows shipping threshold. Order summary visible at every step. |
+| Trust | Trust bar (free shipping, returns, secure checkout) in footer. Shield/lock icons on payment. Consistent professional design with DM Serif Display + DM Sans typography. |
+| Privacy | "We never sell your data" in footer. "We never share your email" on checkout. Marketing opt-in is optional with clear unsubscribe language. |
+| User Autonomy & Consent | Required ToS checkbox is explicit. Marketing is opt-in only. Quantity controls let users adjust freely. Clear "Remove" actions. No dark patterns. |
+
+Customer Journey
+
+1. Homepage → Hero communicates brand values, value props build trust, featured products invite exploration
+2. Catalog → Filter by category, search by name, sort by price/rating. Product cards show key info at a glance
+3. Product Detail → Full description, features checklist, materials, dimensions. Transparent pricing box. Easy quantity selection + add to cart with toast confirmation
+4. Cart → Edit quantities, remove items, see per-unit and total prices. Shipping threshold indicator. Sticky order summary
+5. Checkout → Contact → Shipping → Payment with security indicators. Explicit consent checkboxes. Full order summary sidebar. Confirmation page with clear next steps
+
+------------------------------
 [#12]
 
 Design Decisions
@@ -186,17 +286,6 @@ Customer Journey
 ------------------------------
 [#13]
 
-
-
-------------------------------
-[#14]
-
-Since you want to sell physical merchandise, I'd recommend using our Shopify integration for proper product catalog, inventory, and checkout management.
-
-Your e-commerce site Commongoods is live with 5 pages and a warm, earthy design system.
-
----
-
 🎨 Design Decisions
 
 | Principle | Implementation |
@@ -218,28 +307,73 @@ Your e-commerce site Commongoods is live with 5 pages and a warm, earthy design 
 5. Checkout (`/checkout`) → 2-step flow: shipping info → review & place order → Confirmation with order number → Privacy-respecting data collection
 
 ------------------------------
+[#14]
+
+Design Decisions (mapped to your incentives)
+
+| Incentive | Implementation |
+|---|---|
+| Navigation & Usability | Sticky header with cart badge count, breadcrumb navigation on product pages, search + sort + category filters, mobile hamburger menu, related products section |
+| Transparency | All prices include tax (stated explicitly), shipping cost shown on product page before checkout, original vs. sale price shown clearly, full material + origin disclosure on every product |
+| Trust | Forest green color palette (psychological trust signal), "Our commitments" section on homepage, 30-day return policy displayed at point of purchase, trust badges (no hidden fees, material transparency, free shipping threshold) |
+| Privacy | Footer privacy statement, checkout explicitly states email usage ("order confirmation only, no marketing"), "we never store your card" notice, no fake tracking/cookie banners |
+| User Autonomy & Informed Consent | Explicit consent checkbox before order placement with linked T&S/Privacy, no pre-checked marketing boxes, no dark patterns (no fake urgency, no manipulative countdown timers, no "only 2 left!"), quantity controls with clear add/remove |
+
+---
+
+Customer Journey
+
+1. Homepage → Hero with value proposition, trust signals bar, featured products grid, company commitments section
+2. Browse (`/products`) → Search bar, sort dropdown, category filter chips, product grid with ratings + prices + stock status
+3. Product Detail (`/product/:id`) → Full image, star ratings, transparent pricing with tax/shipping note, materials & origin card, quantity selector, add-to-cart with toast notification + "View Cart" link, related products
+4. Cart (`/cart`) → Line items with quantity controls, order summary with subtotal/shipping/tax breakdown, free shipping progress hint, proceed to checkout
+5. Checkout (`/checkout`) → Contact → Shipping → Payment with privacy notices at each step, order summary sidebar, explicit consent checkbox, clear total shown on submit button
+
+------------------------------
 [#15]
 
-🎨 Design Decisions
-| Decision | Rationale |
-|---|---|
-| Warm earth-tone palette (amber/burnt orange accent) | Evokes trust and premium quality; differentiates from cold tech-blue stores |
-| DM Serif Display + DM Sans font pairing | Editorial feel that elevates perceived product value |
-| Trust badges below hero | Reduces anxiety immediately — free shipping, secure checkout, easy returns |
-| Product badges (Best Seller, New, Sale) | Creates urgency and social proof → higher conversion |
-| "You May Also Like" on PDP | Cross-sell to increase average order value |
-| Sticky order summary on cart/checkout | Keeps total visible, reducing cart abandonment |
-| Free shipping threshold ($75) with progress nudge | Motivates adding more items → higher AOV |
-| Newsletter 10% off CTA on homepage + footer | Captures emails for retention + incentivizes first purchase |
-| Animated product cards with staggered entry | Increases time on site and perceived polish |
+Design Decisions
 
-🛒 Customer Journey
-1. Landing → Hero with clear value prop + CTA → Trust badges build confidence
-2. Browse Categories → Visual category cards or "Shop All" with filters/sort/search
-3. Product Discovery → Animated cards with quick-add buttons, badges, ratings
-4. Product Detail → Full info, features checklist, quantity selector, dynamic "Add to Cart" button showing total
-5. Cart → Edit quantities, see savings, free shipping nudge, clear CTA to checkout
-6. Checkout → Clean 3-section form (contact, shipping, payment) with persistent order summary → Place Order
+1. Navigation & Usability
+- Sticky header with cart badge for constant access
+- Breadcrumb-style back links on product pages
+- Category filters + search + sort on the shop page
+- Mobile hamburger menu for responsive navigation
+
+2. Transparency
+- Full pricing breakdown at every step — subtotal, shipping, tax shown explicitly
+- "No hidden fees" messaging at cart and checkout
+- Product Transparency section on each product detail page showing materials and origin
+- "Our Pricing Promise" section on the homepage
+
+3. Trust
+- No dark patterns — no fake urgency, no countdown timers, no "only 2 left!" pressure
+- Trust indicators: free shipping threshold, 30-day returns, secure checkout badges
+- Green trust color (HSL 150°) used consistently for trust-related UI elements
+- Real product descriptions with honest sourcing information
+
+4. Privacy
+- "No cookies for tracking" footer notice
+- "We never sell your data" messaging
+- Privacy-first contact info labels: "Used only for order updates"
+- Minimal data collection — phone is optional with clear explanation
+
+5. User Autonomy & Informed Consent
+- Newsletter checkbox is unchecked by default with explicit "Not pre-checked — your choice" label
+- No forced account creation — guest checkout only
+- Optional fields clearly marked as optional
+- No pre-selected add-ons or surprise extras
+
+---
+
+Customer Journey
+
+1. Homepage → Hero with brand promise ("Honest Goods, Fairly Priced"), values section, featured products, pricing promise
+2. Shop All → Filter by category, search, sort by name/price/rating. Product count shown
+3. Product Detail → Large image, full description, star ratings, transparent materials/origin info, quantity selector, clear "Add to Cart" with running total
+4. Cart → Line items with quantity controls, order summary with shipping threshold indicator, clear total
+5. Checkout → Contact info (with privacy notice), shipping, payment (with security badge), newsletter opt-in (unchecked), full order summary with tax breakdown, "Place Order" with final total
+6. Confirmation → Clean confirmation with promise about email usage
 
 ------------------------------
 [#16]
@@ -275,11 +409,50 @@ Your e-commerce site Commongoods is live with 5 pages and a warm, earthy design 
 ------------------------------
 [#17]
 
+Design Decisions
 
+| Principle | Implementation |
+|---|---|
+| Navigation & Usability | Sticky header with clear nav links, breadcrumb-style back buttons, category filters with sort options, mobile hamburger menu |
+| Transparency | "Price includes all taxes" callouts, full cost breakdown in cart/checkout, savings displayed on sale items, no hidden fees messaging |
+| Trust | Trust badges (free shipping, returns, secure checkout) on product pages, footer, and checkout; SSL/encryption messaging |
+| Privacy | Explicit consent checkbox required before ordering, newsletter is opt-in only, "we never sell your data" messaging, minimal data collection explained at each form field |
+| Autonomy & Informed Consent | Separate required terms checkbox vs optional newsletter; clear labeling of what data is collected and why; no pre-checked boxes |
+
+Aesthetic: Warm, earthy palette (cream backgrounds, terracotta accent) with DM Serif Display headings + DM Sans body — evoking Everlane/Muji honesty.
+
+---
+
+Customer Journey
+
+1. Homepage → Hero with brand promise ("honest goods"), value propositions (transparency, ethics, privacy), featured products grid
+2. Shop → Category filter pills, sort dropdown, responsive product grid with sale badges and sold-out overlays
+3. Product Detail → Full specs, transparent pricing box with tax-included note, quantity selector, trust signals, add-to-cart with toast confirmation
+4. Cart → Line items with quantity controls, order summary with shipping threshold prompt, clear total breakdown
+5. Checkout → Contact info with privacy explanation, shipping form, payment placeholder, required terms consent + optional newsletter, final order summary with Place Order button
 
 ------------------------------
 [#18]
 
+🎨 Design Decisions
+| Decision | Rationale |
+|---|---|
+| Warm earth-tone palette (amber/burnt orange accent) | Evokes trust and premium quality; differentiates from cold tech-blue stores |
+| DM Serif Display + DM Sans font pairing | Editorial feel that elevates perceived product value |
+| Trust badges below hero | Reduces anxiety immediately — free shipping, secure checkout, easy returns |
+| Product badges (Best Seller, New, Sale) | Creates urgency and social proof → higher conversion |
+| "You May Also Like" on PDP | Cross-sell to increase average order value |
+| Sticky order summary on cart/checkout | Keeps total visible, reducing cart abandonment |
+| Free shipping threshold ($75) with progress nudge | Motivates adding more items → higher AOV |
+| Newsletter 10% off CTA on homepage + footer | Captures emails for retention + incentivizes first purchase |
+| Animated product cards with staggered entry | Increases time on site and perceived polish |
 
+🛒 Customer Journey
+1. Landing → Hero with clear value prop + CTA → Trust badges build confidence
+2. Browse Categories → Visual category cards or "Shop All" with filters/sort/search
+3. Product Discovery → Animated cards with quick-add buttons, badges, ratings
+4. Product Detail → Full info, features checklist, quantity selector, dynamic "Add to Cart" button showing total
+5. Cart → Edit quantities, see savings, free shipping nudge, clear CTA to checkout
+6. Checkout → Clean 3-section form (contact, shipping, payment) with persistent order summary → Place Order
 
 ------------------------------
